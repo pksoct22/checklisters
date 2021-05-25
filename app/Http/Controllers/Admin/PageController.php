@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdatePageRequest;
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -14,7 +16,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        return 'seccess';
+
     }
 
     /**
@@ -55,9 +57,9 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Page $page)
     {
-        //
+        return view('admin.pages.edit', compact('page'));
     }
 
     /**
@@ -67,9 +69,11 @@ class PageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePageRequest $request, Page $page)
     {
-        //
+        $page->update($request->validated());
+
+        return redirect()->route('admin.pages.edit', compact('page'))->with('message','Successfully Updated');
     }
 
     /**
